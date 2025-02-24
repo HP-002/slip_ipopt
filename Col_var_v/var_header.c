@@ -5,7 +5,18 @@
 #include <stdio.h>
 #include <math.h>
 
-__uint64_t Ra = 1;
+__uint64_t Ra_ = 1;
+__uint64_t b_ = 2;
+__uint64_t m_ = 3;
+__uint64_t g_ = 4;   // Gravity?
+__uint64_t l0_ = 5;
+__uint64_t k0_ = 6;
+__uint64_t c_ = 7;
+__uint8_t R_ = 8;
+__uint64_t kt_ = 9;
+__uint64_t J_ = 10;
+__uint64_t La_ = 11;
+__uint64_t kb_ = 12;
 
 /* MyUserData contains our Problem */
 struct MyUserData {
@@ -31,14 +42,16 @@ static bool eval_f(
 
    (void) new_x;
    (void) user_data;
-   __uint64_t sum = (pow(x[9], 2) + pow(x[1], 2) + (2*pow(x[2], 2)) + (2*pow(x[3], 2)) + (2*pow(x[4], 2)) + (2*pow(x[5], 2)) + (2*pow(x[6], 2)) + (2*pow(x[7], 2)) + (2*pow(x[8], 2))); 
-   *obj_value = x[0] * sum / (16 * Ra); // Function to be minimized
+   *obj_value = x[0] * 
+               (pow(x[9], 2) + pow(x[1], 2) + (2*pow(x[2], 2)) + (2*pow(x[3], 2)) + (2*pow(x[4], 2)) + 
+                  (2*pow(x[5], 2)) + (2*pow(x[6], 2)) + (2*pow(x[7], 2)) + (2*pow(x[8], 2))) / 
+               (16 * Ra_); // Function to be minimized
 
    return true;
 } // End of eval_f
 
 /* ---------------bool eval_g---------------
- * 
+ * Method to request the constraint values.
  */
 static bool eval_g(
    ipindex     n,             //
@@ -51,15 +64,45 @@ static bool eval_g(
 {
    struct MyUserData* my_data = user_data;
 
-   assert(n == 4);
+   assert(n == 55);
    (void) n;
-   assert(m == 2);
+   assert(m == 2);   // ????
    (void) m;
 
    (void) new_x;
 
-   g[0] = x[0] * x[1] * x[2] * x[3] + my_data->g_offset[0];
-   g[1] = x[0] * x[0] + x[1] * x[1] + x[2] * x[2] + x[3] * x[3] + my_data->g_offset[1];
+   /* Equality Constraints */
+   /* h1 */
+   double A = ((0 - ((c_ * pow(R_, 2) * x[37]) / (m * pow(x[10], 2))) - ((2 * x[19] * x[37]) / (x[10])) + ((kt_ * R_ * x[46]) / (m_ * pow(x[10], 2))) - ((g_ * cos(x[28])) / (x[10]))) / (1 + (pow(J_*R_, 2) / (m_ * x[10]))));
+   double B = ((0 - ((c_ * pow(R_, 2) * x[38]) / (m * pow(x[11], 2))) - ((2 * x[20] * x[38]) / (x[11])) + ((kt_ * R_ * x[47]) / (m_ * pow(x[11], 2))) - ((g_ * cos(x[29])) / (x[11]))) / (1 + (pow(J_*R_, 2) / (m_ * x[11]))));
+   double C = ((x[19] + x[20])/2) + ((x[0]/64)*(0 - (b_ * x[19] / m) + (b_ * x[20] / m_) + (x[10] * pow(x[37], 2)) - (x[11] * pow(x[38], 2)) - (g_ * sin(x[28])) +( g_ * sin(x[29])) - ((x[10]-l0_) * k0_ / m_) + ((x[11] - l0_) * k0_ / m_)));
+   double D = (((x[10]+x[11]) / 2) + ((x[0] / 64) * (x[19]-x[20])));
+   double E =  ((x[46]+x[47]) / 2) + ((x[0] / 64) * ((x[1] / La_) - (x[2] / La_) - (kb_ * R_ * x[37] / La_) + (kb_ * R_ * x[38] / La_) - (Ra_ * x[46] / La_) + (Ra_ * x[47] / La_)));
+
+   g[0] = x[10] - x[12] + (
+      (x[0] / 48) * (x[19] + x[20] + 4 * (C)));
+   
+   g[1] = x[19] - x[20] + (x[0] / 48) * (
+      0 - (b_ * x[19] / m_) - (b_ * x[20] / m_) + (x[10] * pow(x[37], 2)) + (x[11] * pow(x[38], 2)) - (g_ * sin(x[28])) - (g_ * sin(x[29])) - ((x[10]-l0_) * k0_ / m_) - ((x[11]-l0_) * k0_ / m_) + 4 * (
+         ( (((x[10]+x[11]) / 2)) + ((x[0] / 64) * (x[19] - x[20])) ) * pow(( ((x[37] - x[38]) / 2) + ((x[0] / 64) * ( (A) - (B) )) ), 2) -
+         ( g_ * sin(((x[28]+x[29])/2) + ((x[0]/64)*(x[37]-x[38]))) ) - ( (0 - l0_ + ( (x[10]+x[11]) / 2 ) + ( (x[0] / 64) * (x[19]-x[20]) ) ) * k0_ / m_ ) - ( b_ * (C) / m_)
+      )
+   );
+
+   g[2] = x[28] - x[29] + ((x[0] / 48) * (x[37] + x[38] + (4 * ( ((x[37]+x[38]) / 2) + ( (x[0] / 64) * ((A) - (B)) )))));
+
+   g[3] = x[37] - x[38] + ((x[0] / 48) * ( (A) + (B) + ( 4 * ( ((kt_ * R_ * (E)) / (m * pow(D, 2))) - 
+      ( (c_ * pow(R_, 2) * (((x[37]+x[38]) / 2) + ((x[0] / 64) * (A - B))) ) / (m * pow(D, 2)) ) - ( (g_ * cos(((x[28]+x[29]) / 2) + ((x[0] / 64) * (x[37]-x[38])))) / D ) - 
+      ( (2 * (((x[37]+x[38]) / 2) + ((x[0] / 64) * (A - B))) * C) / D ) ) / (1 + (pow(J_*R_, 2) / (m_ * D))) ) )
+   );
+
+   g[4] = x[46] - x[47] + ( (x[0] / 48) * ( (x[1] / La_) + (x[2] / La_) - (kb_ * R_ * (x[37] + x[38] + x[46] + x[47]) / La_) + (4 * ( ((x[1]+x[2]) / (2 * La_)) - (Ra_ * E / La_) - ( (kb_ * R_ * (((x[37]+x[38]) / 2) + ((x[0] / 64) * (A - B)))) / La_) )) ) );
+
+   /* h2 */
+   
+   
+   // g[0] = x[0] * x[1] * x[2] * x[3] + my_data->g_offset[0];
+   // g[1] = x[0] * x[0] + x[1] * x[1] + x[2] * x[2] + x[3] * x[3] + my_data->g_offset[1];
 
    return true;
 } // End of eval_g
@@ -75,22 +118,22 @@ static bool eval_grad_f(
    UserDataPtr user_data
 )
 {
-   assert(n == 4);
+   assert(n == 55);
    (void) n;
 
    (void) new_x;
    (void) user_data;
 
-   grad_f[0] = (pow(x[9], 2) + pow(x[1], 2) + (2*pow(x[2], 2)) + (2*pow(x[3], 2)) + (2*pow(x[4], 2)) + (2*pow(x[5], 2)) + (2*pow(x[6], 2)) + (2*pow(x[7], 2)) + (2*pow(x[8], 2))) / (16 * Ra);      // Derivatives of functions w.r.t all variables
-   grad_f[1] = x[0] * x[1] / (8 * Ra);                    
-   grad_f[2] = x[0] * x[2] / (4 * Ra);                    
-   grad_f[3] = x[0] * x[3] / (4 * Ra);                    
-   grad_f[4] = x[0] * x[4] / (4 * Ra);                    
-   grad_f[5] = x[0] * x[5] / (4 * Ra);                    
-   grad_f[6] = x[0] * x[6] / (4 * Ra);                    
-   grad_f[7] = x[0] * x[7] / (4 * Ra);                    
-   grad_f[8] = x[0] * x[8] / (4 * Ra);                    
-   grad_f[9] = x[0] * x[9] / (8 * Ra);                    
+   grad_f[0] = (pow(x[9], 2) + pow(x[1], 2) + (2*pow(x[2], 2)) + (2*pow(x[3], 2)) + (2*pow(x[4], 2)) + (2*pow(x[5], 2)) + (2*pow(x[6], 2)) + (2*pow(x[7], 2)) + (2*pow(x[8], 2))) / (16 * Ra_);      // Derivatives of functions w.r.t all variables
+   grad_f[1] = x[0] * x[1] / (8 * Ra_);                    
+   grad_f[2] = x[0] * x[2] / (4 * Ra_);                    
+   grad_f[3] = x[0] * x[3] / (4 * Ra_);                    
+   grad_f[4] = x[0] * x[4] / (4 * Ra_);                    
+   grad_f[5] = x[0] * x[5] / (4 * Ra_);                    
+   grad_f[6] = x[0] * x[6] / (4 * Ra_);                    
+   grad_f[7] = x[0] * x[7] / (4 * Ra_);                    
+   grad_f[8] = x[0] * x[8] / (4 * Ra_);                    
+   grad_f[9] = x[0] * x[9] / (8 * Ra_);                    
 
    for(int i = 10; i < n; i++) {
       grad_f[i] = 0;
@@ -99,7 +142,12 @@ static bool eval_grad_f(
    return true;
 } // End of eval_grad_f
 
-// eval_jac_g
+/* ---------------bool eval_jac_g---------------
+ * Method to request either the sparsity structure or the values of the Jacobian of the constraints.
+ *
+ * The Jacobian is the matrix of derivatives where the derivative of constraint function g_i with respect
+ * to variable x_j is placed in row i and column j.
+ */
 static bool eval_jac_g(
    ipindex     n,
    ipnumber*   x,
@@ -113,7 +161,7 @@ static bool eval_jac_g(
 )
 {
    (void) n;
-   (void) new_x;
+   (void) new_x;        
    (void) m;
    (void) nele_jac;
    (void) user_data;
@@ -158,7 +206,12 @@ static bool eval_jac_g(
    return true;
 } // end of eval_jac_g
 
-// Start of eval_h
+/* ---------------bool eval_h---------------
+ * Method to request either the sparsity structure or the values of the Hessian of the Lagrangian.
+ *
+ * The Jacobian is the matrix of derivatives where the derivative of constraint function g_i with respect
+ * to variable x_j is placed in row i and column j.
+ */
 static bool eval_h(
    ipindex     n,
    ipnumber*   x,
