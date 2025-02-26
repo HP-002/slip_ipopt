@@ -8,7 +8,7 @@
 __uint64_t Ra_ = 1;
 __uint64_t b_ = 2;
 __uint64_t m_ = 3;
-__uint64_t g_ = 4;   // Gravity?
+__uint64_t g_ = 4; // Gravity?
 __uint64_t l0_ = 5;
 __uint64_t k0_ = 6;
 __uint64_t c_ = 7;
@@ -19,33 +19,33 @@ __uint64_t La_ = 11;
 __uint64_t kb_ = 12;
 
 /* MyUserData contains our Problem */
-struct MyUserData {
+struct MyUserData
+{
    ipnumber g_offset[2]; /**< This is an offset for the constraints.  */
-   IpoptProblem nlp;   /**< The problem to be solved. Required in intermediate_cb. */
+   IpoptProblem nlp;     /**< The problem to be solved. Required in intermediate_cb. */
 };
-
 
 /* Callback Functions */
 
 /* ---------------bool eval_f---------------
- * Method to request the value of the objective function. 
+ * Method to request the value of the objective function.
  */
 static bool eval_f(
-   ipindex     n,             // Number of variables
-   ipnumber*   x,             // Variables array 
-   bool        new_x,
-   ipnumber*   obj_value,     // Function
-   UserDataPtr user_data )
+    ipindex n,   // Number of variables
+    ipnumber *x, // Variables array
+    bool new_x,
+    ipnumber *obj_value, // Function
+    UserDataPtr user_data)
 {
    assert(n == 55);
-   (void) n;
+   (void)n;
 
-   (void) new_x;
-   (void) user_data;
-   *obj_value = x[0] * 
-               (pow(x[9], 2) + pow(x[1], 2) + (2*pow(x[2], 2)) + (2*pow(x[3], 2)) + (2*pow(x[4], 2)) + 
-                  (2*pow(x[5], 2)) + (2*pow(x[6], 2)) + (2*pow(x[7], 2)) + (2*pow(x[8], 2))) / 
-               (16 * Ra_); // Function to be minimized
+   (void)new_x;
+   (void)user_data;
+   *obj_value = x[0] *
+                (pow(x[9], 2) + pow(x[1], 2) + (2 * pow(x[2], 2)) + (2 * pow(x[3], 2)) + (2 * pow(x[4], 2)) +
+                 (2 * pow(x[5], 2)) + (2 * pow(x[6], 2)) + (2 * pow(x[7], 2)) + (2 * pow(x[8], 2))) /
+                (16 * Ra_); // Function to be minimized
 
    return true;
 } // End of eval_f
@@ -54,176 +54,45 @@ static bool eval_f(
  * Method to request the constraint values.
  */
 static bool eval_g(
-   ipindex     n,             //
-   ipnumber*   x,
-   bool        new_x,
-   ipindex     m,
-   ipnumber*   g,
-   UserDataPtr user_data
-)
+    ipindex n, //
+    ipnumber *x,
+    bool new_x,
+    ipindex m,
+    ipnumber *g,
+    UserDataPtr user_data)
 {
-   struct MyUserData* my_data = user_data;
+   struct MyUserData *my_data = user_data;
 
    assert(n == 55);
-   (void) n;
-   assert(m == 2);   // ????
-   (void) m;
+   (void)n;
+   assert(m == 2); // ????
+   (void)m;
 
-   (void) new_x;
+   (void)new_x;
 
    /* Equality Constraints */
-   /* ---------------h1--------------- */
-   double A1 = 0 - (b_ * x[19] / m) + (b_ * x[20] / m_) + (x[10] * pow(x[37], 2)) - (x[11] * pow(x[38], 2)) - (g_ * sin(x[28])) +( g_ * sin(x[29])) - ((x[10]-l0_) * k0_ / m_) + ((x[11] - l0_) * k0_ / m_);
-   double A2 = ((x[19] + x[20])/2) + ((x[0]/64)*(A1));
+   for (int i = 0, j = 0; i < 8; i++, j += 5)
+   {
+      double A1 = 0 - (b_ * x[19+i] / m) + (b_ * x[20+i] / m_) + (x[10+i] * pow(x[37+i], 2)) - (x[11+i] * pow(x[38+i], 2)) - (g_ * sin(x[28+i])) + (g_ * sin(x[29+i])) - ((x[10+i] - l0_) * k0_ / m_) + ((x[11+i] - l0_) * k0_ / m_);
+      double A2 = ((x[19+i] + x[20+i]) / 2) + ((x[0] / 64) * (A1));
 
-   double B1 = ((0 - ((c_ * pow(R_, 2) * x[37]) / (m * pow(x[10], 2))) - ((2 * x[19] * x[37]) / (x[10])) + ((kt_ * R_ * x[46]) / (m_ * pow(x[10], 2))) - ((g_ * cos(x[28])) / (x[10]))) / (1 + (pow(J_*R_, 2) / (m_ * x[10]))));
-   double B2 = ((0 - ((c_ * pow(R_, 2) * x[38]) / (m * pow(x[11], 2))) - ((2 * x[20] * x[38]) / (x[11])) + ((kt_ * R_ * x[47]) / (m_ * pow(x[11], 2))) - ((g_ * cos(x[29])) / (x[11]))) / (1 + (pow(J_*R_, 2) / (m_ * x[11]))));
+      double B1 = ((0 - ((c_ * pow(R_, 2) * x[37+i]) / (m * pow(x[10+i], 2))) - ((2 * x[19+i] * x[37+i]) / (x[10+i])) + ((kt_ * R_ * x[46+i]) / (m_ * pow(x[10+i], 2))) - ((g_ * cos(x[28+i])) / (x[10+i]))) / (1 + (pow(J_ * R_, 2) / (m_ * x[10+i]))));
+      double B2 = ((0 - ((c_ * pow(R_, 2) * x[38+i]) / (m * pow(x[11+i], 2))) - ((2 * x[20+i] * x[38+i]) / (x[11+i])) + ((kt_ * R_ * x[47+i]) / (m_ * pow(x[11+i], 2))) - ((g_ * cos(x[29+i])) / (x[11+i]))) / (1 + (pow(J_ * R_, 2) / (m_ * x[11+i]))));
 
-   double C1 = ((x[10]+x[11]) / 2) + ((x[0] / 64) * (x[19]-x[20]));
+      double C1 = ((x[10+i] + x[11+i]) / 2) + ((x[0] / 64) * (x[19+i] - x[20+i]));
 
-   double D1 =  ((x[46]+x[47]) / 2) + ((x[0] / 64) * ((x[1] / La_) - (x[2] / La_) - (kb_ * R_ * x[37] / La_) + (kb_ * R_ * x[38] / La_) - (Ra_ * x[46] / La_) + (Ra_ * x[47] / La_)));
+      double D1 = ((x[46+i] + x[47+i]) / 2) + ((x[0] / 64) * ((x[1+i] / La_) - (x[2+i] / La_) - (kb_ * R_ * x[37+i] / La_) + (kb_ * R_ * x[38+i] / La_) - (Ra_ * x[46+i] / La_) + (Ra_ * x[47+i] / La_)));
 
-   g[0] = x[10] - x[11] + ((x[0] / 48) * (x[19] + x[20] + 4 * A2));
-   
-   g[1] = x[19] - x[20] + (x[0] / 48) * (A1 + 4 * (( ((x[10]+x[11]) / 2) + ((x[0] / 64) * (x[19] - x[20])) ) * pow(( ((x[37] + x[38]) / 2) + ((x[0] / 64) * ( (B1) - (B2) )) ), 2) -
-         ( g_ * sin(((x[28]+x[29])/2) + ((x[0]/64)*(x[37]-x[38]))) ) - ( (0 - l0_ + ( (x[10]+x[11]) / 2 ) + ( (x[0] / 64) * (x[19]-x[20]) ) ) * k0_ / m_ ) - ( b_ * (A2) / m_)
-      )
-   );
+      g[j] = x[10+i] - x[11+i] + ((x[0] / 48) * (x[19+i] + x[20+i] + 4 * A2));
 
-   g[2] = x[28] - x[29] + ((x[0] / 48) * (x[37] + x[38] + (4 * ( ((x[37]+x[38]) / 2) + ( (x[0] / 64) * (B1 - B2) )))));
+      g[j+1] = x[19+i] - x[20+i] + (x[0] / 48) * (A1 + 4 * ((((x[10+i] + x[11+i]) / 2) + ((x[0] / 64) * (x[19+i] - x[20+i]))) * pow((((x[37+i] + x[38+i]) / 2) + ((x[0] / 64) * ((B1) - (B2)))), 2) - (g_ * sin(((x[28+i] + x[29+i]) / 2) + ((x[0] / 64) * (x[37+i] - x[38+i])))) - ((0 - l0_ + ((x[10+i] + x[11+i]) / 2) + ((x[0] / 64) * (x[19+i] - x[20+i]))) * k0_ / m_) - (b_ * (A2) / m_)));
 
-   g[3] = x[37] - x[38] + ((x[0] / 48) * ( B1 + B2 + ( 4 * ( ((kt_ * R_ * (D1)) / (m * pow(C1, 2))) - 
-      ( (c_ * pow(R_, 2) * (((x[37]+x[38]) / 2) + ((x[0] / 64) * (B1 - B2))) ) / (m * pow(C1, 2)) ) - ( (g_ * cos(((x[28]+x[29]) / 2) + ((x[0] / 64) * (x[37]-x[38])))) / C1 ) - 
-      ( (2 * (((x[37]+x[38]) / 2) + ((x[0] / 64) * (B1 - B2))) * A2) / C1 ) ) / (1 + (pow(J_*R_, 2) / (m_ * C1))) ) )
-   );
+      g[j+2] = x[28+i] - x[29+i] + ((x[0] / 48) * (x[37+i] + x[38+i] + (4 * (((x[37+i] + x[38+i]) / 2) + ((x[0] / 64) * (B1 - B2))))));
 
-   g[4] = x[46] - x[47] + ( (x[0] / 48) * ( (x[1] / La_) + (x[2] / La_) - (kb_ * R_ * (x[37] + x[38]) / La_) - (R_ * (x[46] + x[47]) / La_) + (4 * ( ((x[1]+x[2]) / (2 * La_)) - (Ra_ * D1 / La_) - ( (kb_ * R_ * (((x[37]+x[38]) / 2) + ((x[0] / 64) * (B1 - B2)))) / La_) )) ) );
+      g[j+3] = x[37+i] - x[38+i] + ((x[0] / 48) * (B1 + B2 + (4 * (((kt_ * R_ * (D1)) / (m * pow(C1, 2))) - ((c_ * pow(R_, 2) * (((x[37+i] + x[38+i]) / 2) + ((x[0] / 64) * (B1 - B2)))) / (m * pow(C1, 2))) - ((g_ * cos(((x[28+i] + x[29+i]) / 2) + ((x[0] / 64) * (x[37+i] - x[38+i])))) / C1) - ((2 * (((x[37+i] + x[38+i]) / 2) + ((x[0] / 64) * (B1 - B2))) * A2) / C1)) / (1 + (pow(J_ * R_, 2) / (m_ * C1))))));
 
-
-
-   /* ---------------h2--------------- */
-   A1 = 0 - (b_ * x[20] / m) + (b_ * x[21] / m_) + (x[11] * pow(x[38], 2)) - (x[12] * pow(x[39], 2)) - (g_ * sin(x[29])) +( g_ * sin(x[30])) - ((x[11]-l0_) * k0_ / m_) + ((x[12] - l0_) * k0_ / m_);
-   A2 = ((x[20] + x[21])/2) + ((x[0]/64)*(A1));
-
-   B1 = ((0 - ((c_ * pow(R_, 2) * x[38]) / (m * pow(x[11], 2))) - ((2 * x[20] * x[38]) / (x[11])) + ((kt_ * R_ * x[47]) / (m_ * pow(x[11], 2))) - ((g_ * cos(x[29])) / (x[11]))) / (1 + (pow(J_*R_, 2) / (m_ * x[11]))));
-   B2 = ((0 - ((c_ * pow(R_, 2) * x[39]) / (m * pow(x[12], 2))) - ((2 * x[21] * x[39]) / (x[12])) + ((kt_ * R_ * x[48]) / (m_ * pow(x[12], 2))) - ((g_ * cos(x[30])) / (x[12]))) / (1 + (pow(J_*R_, 2) / (m_ * x[12]))));
-
-   C1 = ((x[11]+x[12]) / 2) + ((x[0] / 64) * (x[20]-x[21]));
-
-   D1 =  ((x[47]+x[48]) / 2) + ((x[0] / 64) * ((x[2] / La_) - (x[3] / La_) - (kb_ * R_ * x[38] / La_) + (kb_ * R_ * x[39] / La_) - (Ra_ * x[47] / La_) + (Ra_ * x[48] / La_)));
-   
-   g[5] = x[11] - x[12] + ((x[0] / 48) * (x[20] + x[21] + 4 * A2));
-
-   g[6] = x[20] - x[21] + (x[0] / 48) * (A1 + 4 * (( ((x[11]+x[12]) / 2) + ((x[0] / 64) * (x[20] - x[21])) ) * pow(( ((x[38] + x[39]) / 2) + ((x[0] / 64) * (B1 - B2)) ), 2) - 
-         ( g_ * sin(((x[29]+x[30])/2) + ((x[0]/64)*(x[38]-x[39]))) ) - ( (0 - l0_ + ( (x[11]+x[12]) / 2 ) + ( (x[0] / 64) * (x[20]-x[21]) ) ) * k0_ / m_ ) - ( b_ * (A2) / m_)
-      )
-   );
-
-   g[7] = x[29] - x[30] + ((x[0] / 48) * (x[38] + x[39] + (4 * ( ((x[38]+x[39]) / 2) + ( (x[0] / 64) * (B1 - B2) )))));
-
-   g[8] = x[38] - x[39] + ((x[0] / 48) * ( B1 + B2 + ( 4 * ( ((kt_ * R_ * (D1)) / (m * pow(C1, 2))) - 
-      ( (c_ * pow(R_, 2) * (((x[38]+x[39]) / 2) + ((x[0] / 64) * (B1 - B2))) ) / (m * pow(C1, 2)) ) - ( (g_ * cos(((x[29]+x[30]) / 2) + ((x[0] / 64) * (x[38]-x[39])))) / C1 ) - 
-      ( (2 * (((x[38]+x[39]) / 2) + ((x[0] / 64) * (B1 - B2))) * A2) / C1 ) ) / (1 + (pow(J_*R_, 2) / (m_ * C1))) ) )
-   );
-
-   g[9] = x[47] - x[48] + ( (x[0] / 48) * ( (x[2] / La_) + (x[3] / La_) - (kb_ * R_ * (x[38] + x[39]) / La_) - (Ra_ * (x[47] +x[48]) / La_) + (4 * ( ((x[2]+x[3]) / (2 * La_)) - (Ra_ * D1 / La_) - ( (kb_ * R_ * (((x[38]+x[39]) / 2) + ((x[0] / 64) * (B1 - B2)))) / La_) )) ) );
-   
-
-
-   /* ---------------h3--------------- */
-   A1 = 0 - (b_ * x[21] / m) + (b_ * x[22] / m_) + (x[12] * pow(x[39], 2)) - (x[13] * pow(x[40], 2)) - (g_ * sin(x[30])) +( g_ * sin(x[31])) - ((x[12]-l0_) * k0_ / m_) + ((x[13] - l0_) * k0_ / m_);
-   A2 = ((x[21] + x[22])/2) + ((x[0]/64)*(A1));
-
-   B1 = ((0 - ((c_ * pow(R_, 2) * x[39]) / (m * pow(x[12], 2))) - ((2 * x[21] * x[39]) / (x[12])) + ((kt_ * R_ * x[48]) / (m_ * pow(x[12], 2))) - ((g_ * cos(x[30])) / (x[12]))) / (1 + (pow(J_*R_, 2) / (m_ * x[12]))));
-   B2 = ((0 - ((c_ * pow(R_, 2) * x[40]) / (m * pow(x[13], 2))) - ((2 * x[22] * x[40]) / (x[13])) + ((kt_ * R_ * x[49]) / (m_ * pow(x[13], 2))) - ((g_ * cos(x[31])) / (x[13]))) / (1 + (pow(J_*R_, 2) / (m_ * x[13]))));
-
-   C1 = ((x[12]+x[13]) / 2) + ((x[0] / 64) * (x[21]-x[22]));
-
-   D1 =  ((x[48]+x[49]) / 2) + ((x[0] / 64) * ((x[3] / La_) - (x[4] / La_) - (kb_ * R_ * x[39] / La_) + (kb_ * R_ * x[40] / La_) - (Ra_ * x[48] / La_) + (Ra_ * x[49] / La_)));
-
-   g[10] = x[12] - x[13] + ((x[0] / 48) * (x[21] + x[22] + 4 * A2));
-
-   g[11] = x[21] - x[22] + (x[0] / 48) * (A1 + 4 * (( ((x[12]+x[13]) / 2) + ((x[0] / 64) * (x[21] - x[22])) ) * pow(( ((x[39] + x[40]) / 2) + ((x[0] / 64) * (B1 - B2)) ), 2) - 
-         ( g_ * sin(((x[30]+x[31])/2) + ((x[0]/64)*(x[39]-x[40]))) ) - ( (0 - l0_ + ( (x[12]+x[13]) / 2 ) + ( (x[0] / 64) * (x[21]-x[22]) ) ) * k0_ / m_ ) - ( b_ * (A2) / m_)
-      )
-   );
-
-   g[12] = x[30] - x[31] + ((x[0] / 48) * (x[39] + x[40] + (4 * ( ((x[39]+x[40]) / 2) + ( (x[0] / 64) * (B1 - B2) )))));
-
-   g[13] = x[39] - x[40] + ((x[0] / 48) * ( B1 + B2 + ( 4 * ( ((kt_ * R_ * (D1)) / (m * pow(C1, 2))) - 
-      ( (c_ * pow(R_, 2) * (((x[39]+x[40]) / 2) + ((x[0] / 64) * (B1 - B2))) ) / (m * pow(C1, 2)) ) - ( (g_ * cos(((x[30]+x[31]) / 2) + ((x[0] / 64) * (x[39]-x[40])))) / C1 ) - 
-      ( (2 * (((x[39]+x[40]) / 2) + ((x[0] / 64) * (B1 - B2))) * A2) / C1 ) ) / (1 + (pow(J_*R_, 2) / (m_ * C1))) ) )
-   );
-
-   g[14] = x[48] - x[49] + ( (x[0] / 48) * ( (x[3] / La_) + (x[4] / La_) - (kb_ * R_ * (x[39] + x[40]) / La_) - (Ra_ * (x[48] +x[49]) / La_) + (4 * ( ((x[3]+x[4]) / (2 * La_)) - (Ra_ * D1 / La_) - ( (kb_ * R_ * (((x[39]+x[40]) / 2) + ((x[0] / 64) * (B1 - B2)))) / La_) )) ) );
-   
-
-
-   /* ---------------h4--------------- */
-   A1 = 0 - (b_ * x[22] / m) + (b_ * x[23] / m_) + (x[13] * pow(x[40], 2)) - (x[14] * pow(x[41], 2)) - (g_ * sin(x[31])) +( g_ * sin(x[32])) - ((x[13]-l0_) * k0_ / m_) + ((x[14] - l0_) * k0_ / m_);
-   A2 = ((x[22] + x[23])/2) + ((x[0]/64)*(A1));
-
-   B1 = ((0 - ((c_ * pow(R_, 2) * x[40]) / (m * pow(x[13], 2))) - ((2 * x[22] * x[40]) / (x[13])) + ((kt_ * R_ * x[49]) / (m_ * pow(x[13], 2))) - ((g_ * cos(x[31])) / (x[13]))) / (1 + (pow(J_*R_, 2) / (m_ * x[13]))));
-   B2 = ((0 - ((c_ * pow(R_, 2) * x[41]) / (m * pow(x[14], 2))) - ((2 * x[23] * x[41]) / (x[14])) + ((kt_ * R_ * x[50]) / (m_ * pow(x[14], 2))) - ((g_ * cos(x[32])) / (x[14]))) / (1 + (pow(J_*R_, 2) / (m_ * x[14]))));
-
-   C1 = ((x[13]+x[14]) / 2) + ((x[0] / 64) * (x[22]-x[23]));
-
-   D1 =  ((x[49]+x[50]) / 2) + ((x[0] / 64) * ((x[4] / La_) - (x[5] / La_) - (kb_ * R_ * x[40] / La_) + (kb_ * R_ * x[41] / La_) - (Ra_ * x[49] / La_) + (Ra_ * x[50] / La_)));
-
-   g[15] = x[13] - x[14] + ((x[0] / 48) * (x[22] + x[23] + 4 * A2));
-
-   g[16] = x[22] - x[23] + (x[0] / 48) * (A1 + 4 * (( ((x[13]+x[14]) / 2) + ((x[0] / 64) * (x[22] - x[23])) ) * pow(( ((x[40] + x[41]) / 2) + ((x[0] / 64) * (B1 - B2)) ), 2) - 
-         ( g_ * sin(((x[31]+x[32])/2) + ((x[0]/64)*(x[40]-x[41]))) ) - ( (0 - l0_ + ( (x[13]+x[14]) / 2 ) + ( (x[0] / 64) * (x[22]-x[23]) ) ) * k0_ / m_ ) - ( b_ * (A2) / m_)
-      )
-   );
-
-   g[17] = x[31] - x[32] + ((x[0] / 48) * (x[40] + x[41] + (4 * ( ((x[40]+x[41]) / 2) + ( (x[0] / 64) * (B1 - B2) )))));
-
-   g[18] = x[40] - x[41] + ((x[0] / 48) * ( B1 + B2 + ( 4 * ( ((kt_ * R_ * (D1)) / (m * pow(C1, 2))) - 
-      ( (c_ * pow(R_, 2) * (((x[40]+x[41]) / 2) + ((x[0] / 64) * (B1 - B2))) ) / (m * pow(C1, 2)) ) - ( (g_ * cos(((x[31]+x[32]) / 2) + ((x[0] / 64) * (x[40]-x[41])))) / C1 ) - 
-      ( (2 * (((x[40]+x[41]) / 2) + ((x[0] / 64) * (B1 - B2))) * A2) / C1 ) ) / (1 + (pow(J_*R_, 2) / (m_ * C1))) ) )
-   );
-
-   g[19] = x[49] - x[50] + ( (x[0] / 48) * ( (x[4] / La_) + (x[5] / La_) - (kb_ * R_ * (x[40] + x[41]) / La_) - (Ra_ * (x[49] + x[50]) / La_) + (4 * ( ((x[4]+x[5]) / (2 * La_)) - (Ra_ * D1 / La_) - ( (kb_ * R_ * (((x[40]+x[41]) / 2) + ((x[0] / 64) * (B1 - B2)))) / La_) )) ) );
-   
-
-   
-
-   /* ---------------h5--------------- */
-   A1 = 0 - (b_ * x[23] / m) + (b_ * x[24] / m_) + (x[14] * pow(x[41], 2)) - (x[15] * pow(x[42], 2)) - (g_ * sin(x[32])) +( g_ * sin(x[33])) - ((x[14]-l0_) * k0_ / m_) + ((x[15] - l0_) * k0_ / m_);
-   A2 = ((x[23] + x[24])/2) + ((x[0]/64)*(A1));
-
-   B1 = ((0 - ((c_ * pow(R_, 2) * x[41]) / (m * pow(x[14], 2))) - ((2 * x[23] * x[41]) / (x[14])) + ((kt_ * R_ * x[50]) / (m_ * pow(x[14], 2))) - ((g_ * cos(x[32])) / (x[14]))) / (1 + (pow(J_*R_, 2) / (m_ * x[14]))));
-   B2 = ((0 - ((c_ * pow(R_, 2) * x[42]) / (m * pow(x[15], 2))) - ((2 * x[24] * x[42]) / (x[15])) + ((kt_ * R_ * x[51]) / (m_ * pow(x[15], 2))) - ((g_ * cos(x[33])) / (x[15]))) / (1 + (pow(J_*R_, 2) / (m_ * x[15]))));
-
-   C1 = ((x[14]+x[15]) / 2) + ((x[0] / 64) * (x[23]-x[24]));
-
-   D1 =  ((x[50]+x[51]) / 2) + ((x[0] / 64) * ((x[5] / La_) - (x[6] / La_) - (kb_ * R_ * x[41] / La_) + (kb_ * R_ * x[42] / La_) - (Ra_ * x[50] / La_) + (Ra_ * x[51] / La_)));
-
-   g[20] = x[14] - x[15] + ((x[0] / 48) * (x[23] + x[24] + 4 * A2));
-
-   g[21] = x[23] - x[24] + (x[0] / 48) * (A1 + 4 * (( ((x[14]+x[15]) / 2) + ((x[0] / 64) * (x[23] - x[24])) ) * pow(( ((x[41] + x[42]) / 2) + ((x[0] / 64) * (B1 - B2)) ), 2) - 
-         ( g_ * sin(((x[32]+x[33])/2) + ((x[0]/64)*(x[41]-x[42]))) ) - ( (0 - l0_ + ( (x[14]+x[15]) / 2 ) + ( (x[0] / 64) * (x[23]-x[24]) ) ) * k0_ / m_ ) - ( b_ * (A2) / m_)
-      )
-   );
-
-   g[22] = x[32] - x[33] + ((x[0] / 48) * (x[41] + x[42] + (4 * ( ((x[41]+x[42]) / 2) + ( (x[0] / 64) * (B1 - B2) )))));
-
-   g[23] = x[41] - x[42] + ((x[0] / 48) * ( B1 + B2 + ( 4 * ( ((kt_ * R_ * (D1)) / (m * pow(C1, 2))) - 
-      ( (c_ * pow(R_, 2) * (((x[41]+x[42]) / 2) + ((x[0] / 64) * (B1 - B2))) ) / (m * pow(C1, 2)) ) - ( (g_ * cos(((x[32]+x[33]) / 2) + ((x[0] / 64) * (x[41]-x[42])))) / C1 ) - 
-      ( (2 * (((x[41]+x[42]) / 2) + ((x[0] / 64) * (B1 - B2))) * A2) / C1 ) ) / (1 + (pow(J_*R_, 2) / (m_ * C1))) ) )
-   );
-
-   g[24] = x[50] - x[51] + ( (x[0] / 48) * ( (x[5] / La_) + (x[6] / La_) - (kb_ * R_ * (x[41] + x[42]) / La_) - (Ra_ * (x[50] + x[51]) / La_) + (4 * ( ((x[5]+x[6]) / (2 * La_)) - (Ra_ * D1 / La_) - ( (kb_ * R_ * (((x[41]+x[42]) / 2) + ((x[0] / 64) * (B1 - B2)))) / La_) )) ) );
- 
-
-   
-
-   /* ---------------h6--------------- */
-
-
-   // g[0] = x[0] * x[1] * x[2] * x[3] + my_data->g_offset[0];
-   // g[1] = x[0] * x[0] + x[1] * x[1] + x[2] * x[2] + x[3] * x[3] + my_data->g_offset[1];
+      g[j+4] = x[46+i] - x[47+i] + ((x[0] / 48) * ((x[1+i] / La_) + (x[2+i] / La_) - (kb_ * R_ * (x[37+i] + x[38+i]) / La_) - (R_ * (x[46+i] + x[47+i]) / La_) + (4 * (((x[1+i] + x[2+i]) / (2 * La_)) - (Ra_ * D1 / La_) - ((kb_ * R_ * (((x[37+i] + x[38+i]) / 2) + ((x[0] / 64) * (B1 - B2)))) / La_)))));
+   }
 
    return true;
 } // End of eval_g
@@ -232,31 +101,31 @@ static bool eval_g(
  * Method to request the gradient of the objective function.
  */
 static bool eval_grad_f(
-   ipindex     n,
-   ipnumber*   x,
-   bool        new_x,
-   ipnumber*   grad_f,
-   UserDataPtr user_data
-)
+    ipindex n,
+    ipnumber *x,
+    bool new_x,
+    ipnumber *grad_f,
+    UserDataPtr user_data)
 {
    assert(n == 55);
-   (void) n;
+   (void)n;
 
-   (void) new_x;
-   (void) user_data;
+   (void)new_x;
+   (void)user_data;
 
-   grad_f[0] = (pow(x[9], 2) + pow(x[1], 2) + (2*pow(x[2], 2)) + (2*pow(x[3], 2)) + (2*pow(x[4], 2)) + (2*pow(x[5], 2)) + (2*pow(x[6], 2)) + (2*pow(x[7], 2)) + (2*pow(x[8], 2))) / (16 * Ra_);      // Derivatives of functions w.r.t all variables
-   grad_f[1] = x[0] * x[1] / (8 * Ra_);                    
-   grad_f[2] = x[0] * x[2] / (4 * Ra_);                    
-   grad_f[3] = x[0] * x[3] / (4 * Ra_);                    
-   grad_f[4] = x[0] * x[4] / (4 * Ra_);                    
-   grad_f[5] = x[0] * x[5] / (4 * Ra_);                    
-   grad_f[6] = x[0] * x[6] / (4 * Ra_);                    
-   grad_f[7] = x[0] * x[7] / (4 * Ra_);                    
-   grad_f[8] = x[0] * x[8] / (4 * Ra_);                    
-   grad_f[9] = x[0] * x[9] / (8 * Ra_);                    
+   grad_f[0] = (pow(x[9], 2) + pow(x[1], 2) + (2 * pow(x[2], 2)) + (2 * pow(x[3], 2)) + (2 * pow(x[4], 2)) + (2 * pow(x[5], 2)) + (2 * pow(x[6], 2)) + (2 * pow(x[7], 2)) + (2 * pow(x[8], 2))) / (16 * Ra_); // Derivatives of functions w.r.t all variables
+   grad_f[1] = x[0] * x[1] / (8 * Ra_);
+   grad_f[2] = x[0] * x[2] / (4 * Ra_);
+   grad_f[3] = x[0] * x[3] / (4 * Ra_);
+   grad_f[4] = x[0] * x[4] / (4 * Ra_);
+   grad_f[5] = x[0] * x[5] / (4 * Ra_);
+   grad_f[6] = x[0] * x[6] / (4 * Ra_);
+   grad_f[7] = x[0] * x[7] / (4 * Ra_);
+   grad_f[8] = x[0] * x[8] / (4 * Ra_);
+   grad_f[9] = x[0] * x[9] / (8 * Ra_);
 
-   for(int i = 10; i < n; i++) {
+   for (int i = 10; i < n; i++)
+   {
       grad_f[i] = 0;
    }
 
@@ -270,24 +139,23 @@ static bool eval_grad_f(
  * to variable x_j is placed in row i and column j.
  */
 static bool eval_jac_g(
-   ipindex     n,
-   ipnumber*   x,
-   bool        new_x,
-   ipindex     m,
-   ipindex     nele_jac,
-   ipindex*    iRow,
-   ipindex*    jCol,
-   ipnumber*   values,
-   UserDataPtr user_data
-)
+    ipindex n,
+    ipnumber *x,
+    bool new_x,
+    ipindex m,
+    ipindex nele_jac,
+    ipindex *iRow,
+    ipindex *jCol,
+    ipnumber *values,
+    UserDataPtr user_data)
 {
-   (void) n;
-   (void) new_x;        
-   (void) m;
-   (void) nele_jac;
-   (void) user_data;
+   (void)n;
+   (void)new_x;
+   (void)m;
+   (void)nele_jac;
+   (void)user_data;
 
-   if( values == NULL )
+   if (values == NULL)
    {
       /* return the structure of the jacobian */
 
@@ -334,27 +202,26 @@ static bool eval_jac_g(
  * to variable x_j is placed in row i and column j.
  */
 static bool eval_h(
-   ipindex     n,
-   ipnumber*   x,
-   bool        new_x,
-   ipnumber    obj_factor,
-   ipindex     m,
-   ipnumber*   lambda,
-   bool        new_lambda,
-   ipindex     nele_hess,
-   ipindex*    iRow,
-   ipindex*    jCol,
-   ipnumber*   values,
-   UserDataPtr user_data
-)
+    ipindex n,
+    ipnumber *x,
+    bool new_x,
+    ipnumber obj_factor,
+    ipindex m,
+    ipnumber *lambda,
+    bool new_lambda,
+    ipindex nele_hess,
+    ipindex *iRow,
+    ipindex *jCol,
+    ipnumber *values,
+    UserDataPtr user_data)
 {
-   (void) n;
-   (void) new_x;
-   (void) m;
-   (void) new_lambda;
-   (void) user_data;
+   (void)n;
+   (void)new_x;
+   (void)m;
+   (void)new_lambda;
+   (void)user_data;
 
-   if( values == NULL )
+   if (values == NULL)
    {
       ipindex idx; /* nonzero element counter */
       ipindex row; /* row counter for loop */
@@ -365,9 +232,9 @@ static bool eval_h(
 
       /* the hessian for this problem is actually dense */
       idx = 0;
-      for( row = 0; row < 4; row++ )
+      for (row = 0; row < 4; row++)
       {
-         for( col = 0; col <= row; col++ )
+         for (col = 0; col <= row; col++)
          {
             iRow[idx] = row;
             jCol[idx] = col;
@@ -376,7 +243,7 @@ static bool eval_h(
       }
 
       assert(idx == nele_hess);
-      (void) nele_hess;
+      (void)nele_hess;
    }
    else
    {
@@ -387,16 +254,16 @@ static bool eval_h(
       values[0] = obj_factor * (2 * x[3]); /* 0,0 */
 
       values[1] = obj_factor * (x[3]); /* 1,0 */
-      values[2] = 0; /* 1,1 */
+      values[2] = 0;                   /* 1,1 */
 
       values[3] = obj_factor * (x[3]); /* 2,0 */
-      values[4] = 0; /* 2,1 */
-      values[5] = 0; /* 2,2 */
+      values[4] = 0;                   /* 2,1 */
+      values[5] = 0;                   /* 2,2 */
 
       values[6] = obj_factor * (2 * x[0] + x[1] + x[2]); /* 3,0 */
-      values[7] = obj_factor * (x[0]); /* 3,1 */
-      values[8] = obj_factor * (x[0]); /* 3,2 */
-      values[9] = 0; /* 3,3 */
+      values[7] = obj_factor * (x[0]);                   /* 3,1 */
+      values[8] = obj_factor * (x[0]);                   /* 3,2 */
+      values[9] = 0;                                     /* 3,3 */
 
       /* add the portion for the first constraint */
       values[1] += lambda[0] * (x[2] * x[3]); /* 1,0 */
