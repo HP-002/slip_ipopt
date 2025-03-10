@@ -65,7 +65,7 @@ static bool eval_g(
 
     assert(n == 55);
     (void)n;
-    assert(m == 2); // ????
+    assert(m == 40);
     (void)m;
 
     (void)new_x;
