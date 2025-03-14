@@ -10,14 +10,16 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     31946,        758]
-NotebookOptionsPosition[     31368,        739]
-NotebookOutlinePosition[     31896,        759]
-CellTagsIndexPosition[     31853,        756]
+NotebookDataLength[     34158,        805]
+NotebookOptionsPosition[     33455,        783]
+NotebookOutlinePosition[     33981,        803]
+CellTagsIndexPosition[     33938,        800]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
+
+Cell[CellGroupData[{
 Cell[BoxData[{
  RowBox[{
   RowBox[{"numPoint", "=", "9"}], ";"}], "\[IndentingNewLine]", 
@@ -507,106 +509,127 @@ Cell[BoxData[{
   RowBox[{
    RowBox[{"hess", "[", 
     RowBox[{"h2", "[", 
-     RowBox[{"[", "4", "]"}], "]"}], "]"}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"file", " ", "=", " ", 
+     RowBox[{"[", "4", "]"}], "]"}], "]"}], ";"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", 
    RowBox[{
-   "OpenWrite", 
-    "[", "\"\<\\\\\\\\wsl.localhost\\\\Ubuntu\\\\home\\\\hetpatel\\\\SLIP\\\\\
-slip_ipopt\\\\slip_ipopt\\\\Equations\\\\Col_var_v\\\\equality_var_v_text.txt\
-\>\"", "]"}]}], ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"For", "[", 
+    RowBox[{"file", " ", "=", " ", 
+     RowBox[{
+     "OpenWrite", 
+      "[", "\"\<\\\\\\\\wsl.localhost\\\\Ubuntu\\\\home\\\\hetpatel\\\\SLIP\\\
+\\slip_ipopt\\\\slip_ipopt\\\\Equations\\\\Col_var_v\\\\equality_var_v_text.\
+txt\>\"", "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"For", "[", 
+     RowBox[{
+      RowBox[{"i", "=", "1"}], ",", 
+      RowBox[{"i", "<=", "5"}], ",", 
+      RowBox[{"i", "++"}], ",", 
+      RowBox[{"WriteLine", "[", 
+       RowBox[{"file", ",", 
+        RowBox[{"CForm", "[", 
+         RowBox[{"h1", "[", 
+          RowBox[{"[", "i", "]"}], "]"}], "]"}]}], "]"}]}], "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"For", "[", 
+     RowBox[{
+      RowBox[{"i", "=", "1"}], ",", 
+      RowBox[{"i", "<=", "5"}], ",", 
+      RowBox[{"i", "++"}], ",", 
+      RowBox[{"WriteLine", "[", 
+       RowBox[{"file", ",", 
+        RowBox[{"CForm", "[", 
+         RowBox[{"h2", "[", 
+          RowBox[{"[", "i", "]"}], "]"}], "]"}]}], "]"}]}], "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"For", "[", 
+     RowBox[{
+      RowBox[{"i", "=", "1"}], ",", 
+      RowBox[{"i", "<=", "5"}], ",", 
+      RowBox[{"i", "++"}], ",", 
+      RowBox[{"WriteLine", "[", 
+       RowBox[{"file", ",", 
+        RowBox[{"CForm", "[", 
+         RowBox[{"h3", "[", 
+          RowBox[{"[", "i", "]"}], "]"}], "]"}]}], "]"}]}], "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"For", "[", 
+     RowBox[{
+      RowBox[{"i", "=", "1"}], ",", 
+      RowBox[{"i", "<=", "5"}], ",", 
+      RowBox[{"i", "++"}], ",", 
+      RowBox[{"WriteLine", "[", 
+       RowBox[{"file", ",", 
+        RowBox[{"CForm", "[", 
+         RowBox[{"h4", "[", 
+          RowBox[{"[", "i", "]"}], "]"}], "]"}]}], "]"}]}], "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"For", "[", 
+     RowBox[{
+      RowBox[{"i", "=", "1"}], ",", 
+      RowBox[{"i", "<=", "5"}], ",", 
+      RowBox[{"i", "++"}], ",", 
+      RowBox[{"WriteLine", "[", 
+       RowBox[{"file", ",", 
+        RowBox[{"CForm", "[", 
+         RowBox[{"h5", "[", 
+          RowBox[{"[", "i", "]"}], "]"}], "]"}]}], "]"}]}], "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"For", "[", 
+     RowBox[{
+      RowBox[{"i", "=", "1"}], ",", 
+      RowBox[{"i", "<=", "5"}], ",", 
+      RowBox[{"i", "++"}], ",", 
+      RowBox[{"WriteLine", "[", 
+       RowBox[{"file", ",", 
+        RowBox[{"CForm", "[", 
+         RowBox[{"h6", "[", 
+          RowBox[{"[", "i", "]"}], "]"}], "]"}]}], "]"}]}], "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"For", "[", 
+     RowBox[{
+      RowBox[{"i", "=", "1"}], ",", 
+      RowBox[{"i", "<=", "5"}], ",", 
+      RowBox[{"i", "++"}], ",", 
+      RowBox[{"WriteLine", "[", 
+       RowBox[{"file", ",", 
+        RowBox[{"CForm", "[", 
+         RowBox[{"h7", "[", 
+          RowBox[{"[", "i", "]"}], "]"}], "]"}]}], "]"}]}], "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"For", "[", 
+     RowBox[{
+      RowBox[{"i", "=", "1"}], ",", 
+      RowBox[{"i", "<=", "5"}], ",", 
+      RowBox[{"i", "++"}], ",", 
+      RowBox[{"WriteLine", "[", 
+       RowBox[{"file", ",", 
+        RowBox[{"CForm", "[", 
+         RowBox[{"h8", "[", 
+          RowBox[{"[", "i", "]"}], "]"}], "]"}]}], "]"}]}], "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Close", "[", "file", "]"}]}], "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", 
    RowBox[{
-    RowBox[{"i", "=", "1"}], ",", 
-    RowBox[{"i", "<=", "5"}], ",", 
-    RowBox[{"i", "++"}], ",", 
-    RowBox[{"WriteLine", "[", 
-     RowBox[{"file", ",", 
-      RowBox[{"CForm", "[", 
-       RowBox[{"h1", "[", 
-        RowBox[{"[", "i", "]"}], "]"}], "]"}]}], "]"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
+    RowBox[{"file", "=", 
+     RowBox[{
+     "OpenWrite", 
+      "[", "\"\<\\\\\\\\wsl.localhost\\\\Ubuntu\\\\home\\\\hetpatel\\\\SLIP\\\
+\\slip_ipopt\\\\slip_ipopt\\\\Equations\\\\Col_var_v\\\\eq_jacob_var_v_text.\
+txt\>\"", "]"}]}], ";"}], "*)"}]}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"For", "[", 
-   RowBox[{
-    RowBox[{"i", "=", "1"}], ",", 
-    RowBox[{"i", "<=", "5"}], ",", 
-    RowBox[{"i", "++"}], ",", 
-    RowBox[{"WriteLine", "[", 
-     RowBox[{"file", ",", 
-      RowBox[{"CForm", "[", 
-       RowBox[{"h2", "[", 
-        RowBox[{"[", "i", "]"}], "]"}], "]"}]}], "]"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"For", "[", 
-   RowBox[{
-    RowBox[{"i", "=", "1"}], ",", 
-    RowBox[{"i", "<=", "5"}], ",", 
-    RowBox[{"i", "++"}], ",", 
-    RowBox[{"WriteLine", "[", 
-     RowBox[{"file", ",", 
-      RowBox[{"CForm", "[", 
-       RowBox[{"h3", "[", 
-        RowBox[{"[", "i", "]"}], "]"}], "]"}]}], "]"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"For", "[", 
-   RowBox[{
-    RowBox[{"i", "=", "1"}], ",", 
-    RowBox[{"i", "<=", "5"}], ",", 
-    RowBox[{"i", "++"}], ",", 
-    RowBox[{"WriteLine", "[", 
-     RowBox[{"file", ",", 
-      RowBox[{"CForm", "[", 
-       RowBox[{"h4", "[", 
-        RowBox[{"[", "i", "]"}], "]"}], "]"}]}], "]"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"For", "[", 
-   RowBox[{
-    RowBox[{"i", "=", "1"}], ",", 
-    RowBox[{"i", "<=", "5"}], ",", 
-    RowBox[{"i", "++"}], ",", 
-    RowBox[{"WriteLine", "[", 
-     RowBox[{"file", ",", 
-      RowBox[{"CForm", "[", 
-       RowBox[{"h5", "[", 
-        RowBox[{"[", "i", "]"}], "]"}], "]"}]}], "]"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"For", "[", 
-   RowBox[{
-    RowBox[{"i", "=", "1"}], ",", 
-    RowBox[{"i", "<=", "5"}], ",", 
-    RowBox[{"i", "++"}], ",", 
-    RowBox[{"WriteLine", "[", 
-     RowBox[{"file", ",", 
-      RowBox[{"CForm", "[", 
-       RowBox[{"h6", "[", 
-        RowBox[{"[", "i", "]"}], "]"}], "]"}]}], "]"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"For", "[", 
-   RowBox[{
-    RowBox[{"i", "=", "1"}], ",", 
-    RowBox[{"i", "<=", "5"}], ",", 
-    RowBox[{"i", "++"}], ",", 
-    RowBox[{"WriteLine", "[", 
-     RowBox[{"file", ",", 
-      RowBox[{"CForm", "[", 
-       RowBox[{"h7", "[", 
-        RowBox[{"[", "i", "]"}], "]"}], "]"}]}], "]"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"For", "[", 
-   RowBox[{
-    RowBox[{"i", "=", "1"}], ",", 
-    RowBox[{"i", "<=", "5"}], ",", 
-    RowBox[{"i", "++"}], ",", 
-    RowBox[{"WriteLine", "[", 
-     RowBox[{"file", ",", 
-      RowBox[{"CForm", "[", 
-       RowBox[{"h8", "[", 
-        RowBox[{"[", "i", "]"}], "]"}], "]"}]}], "]"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
+  RowBox[{"jacobian", " ", "=", " ", 
+   RowBox[{"j", "[", 
+    RowBox[{"h1", "[", 
+     RowBox[{"[", "1", "]"}], "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
-   RowBox[{"Close", "[", "file", "]"}], ";"}], "\[IndentingNewLine]", 
-  "\[IndentingNewLine]", 
+   RowBox[{"Print", "[", 
+    RowBox[{"Head", "[", 
+     RowBox[{"CForm", "[", 
+      RowBox[{"jacobian", "[", 
+       RowBox[{"[", "1", "]"}], "]"}], "]"}], "]"}], "]"}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
   "\[IndentingNewLine]"}], "\[IndentingNewLine]"}], "Input",
  CellChangeTimes->{{3.927637634581682*^9, 3.9276377045449457`*^9}, {
    3.9276377692811728`*^9, 3.927638092097186*^9}, {3.927638172857936*^9, 
@@ -729,20 +752,41 @@ slip_ipopt\\\\slip_ipopt\\\\Equations\\\\Col_var_v\\\\equality_var_v_text.txt\
    3.9498668128501244`*^9}, {3.9498668433158054`*^9, 
    3.9498668434360523`*^9}, {3.950973512827364*^9, 3.950973525893078*^9}, {
    3.950973558161701*^9, 3.950973801686001*^9}, {3.9509739169061947`*^9, 
-   3.9509739522908344`*^9}},ExpressionUUID->"017b8501-205e-42ba-b5f0-\
-7a45dabc10c9"],
+   3.9509739522908344`*^9}, {3.9509744126860504`*^9, 
+   3.9509744508626328`*^9}, {3.950974482554987*^9, 3.9509744966252403`*^9}, {
+   3.950974606853285*^9, 3.9509746411354504`*^9}, {3.950974683081167*^9, 
+   3.95097473032168*^9}, {3.9509747636039257`*^9, 3.9509748290450726`*^9}, {
+   3.950974874959652*^9, 3.950974901720461*^9}, {3.9509749459562206`*^9, 
+   3.950974946592699*^9}, {3.95097498136701*^9, 3.9509750192851715`*^9}, 
+   3.9509759838503475`*^9, {3.9509761315208664`*^9, 3.9509761474500237`*^9}, {
+   3.9509763052323475`*^9, 3.9509763251209755`*^9}, {3.9509763582059937`*^9, 
+   3.9509764006643124`*^9}, 3.9509764538164444`*^9, {3.950976484280077*^9, 
+   3.950976505550009*^9}, {3.950976559230736*^9, 3.950976602414732*^9}},
+ CellLabel->
+  "In[442]:=",ExpressionUUID->"017b8501-205e-42ba-b5f0-7a45dabc10c9"],
+
+Cell[BoxData["CForm"], "Print",
+ CellChangeTimes->{{3.950974618006321*^9, 3.950974642794094*^9}, 
+   3.95097468860359*^9, 3.9509761492501335`*^9, 3.9509763278690815`*^9, {
+   3.9509763603592987`*^9, 3.9509763733898277`*^9}, {3.950976498783308*^9, 
+   3.950976509135374*^9}, {3.950976565765087*^9, 3.9509765768267727`*^9}, 
+   3.950976606952114*^9},
+ CellLabel->
+  "During evaluation of \
+In[442]:=",ExpressionUUID->"f0729926-373b-4e46-bc3a-5279e7780bec"]
+}, Open  ]],
 
 Cell[BoxData[" "], "Input",
  CellChangeTimes->{
   3.927969832374379*^9},ExpressionUUID->"822f5ef6-b912-4f51-af5b-\
 aa1a64e01c99"]
 },
-WindowSize->{949, 466.5},
+WindowSize->{949, 461},
 WindowMargins->{{0, Automatic}, {Automatic, 0}},
 PrintingCopies->1,
 PrintingPageRange->{1, Automatic},
 TaggingRules-><|"TryRealOnly" -> False|>,
-Magnification:>0.8 Inherited,
+Magnification:>0.7 Inherited,
 FrontEndVersion->"14.2 for Microsoft Windows (64-bit) (December 26, 2024)",
 StyleDefinitions->"Default.nb",
 ExpressionUUID->"9de5d887-cd41-4cb2-9dd1-52a74cc0d8bd"
@@ -758,8 +802,11 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[558, 20, 30674, 712, 1414, "Input",ExpressionUUID->"017b8501-205e-42ba-b5f0-7a45dabc10c9"],
-Cell[31235, 734, 129, 3, 22, "Input",ExpressionUUID->"822f5ef6-b912-4f51-af5b-aa1a64e01c99"]
+Cell[CellGroupData[{
+Cell[580, 22, 32270, 743, 1264, "Input",ExpressionUUID->"017b8501-205e-42ba-b5f0-7a45dabc10c9"],
+Cell[32853, 767, 454, 8, 17, "Print",ExpressionUUID->"f0729926-373b-4e46-bc3a-5279e7780bec"]
+}, Open  ]],
+Cell[33322, 778, 129, 3, 21, "Input",ExpressionUUID->"822f5ef6-b912-4f51-af5b-aa1a64e01c99"]
 }
 ]
 *)
