@@ -1,18 +1,32 @@
+import re
+
 def parse_file(filename):
-    out_filename = "parsed_" + filename
+    out_filename = filename.rstrip('.txt') + '_parsed.txt'
     with open(filename, 'r') as input_file, open(out_filename, 'w') as output_file:
         for line in input_file:
-            parsed_equation = modify_equation(line)
+            parsed_equation = parse_equation(line.rstrip('\n') + '\n')
             output_file.write(parsed_equation)
     return True
 
-def modify_equation(equation):
-    # TODO: Modify the equations
-    return equation
+def parse_equation(equation):
+    # Fix the indices for variable 'x'
+    pattern = r'\bx(\d{1,2})\b'
+    def replace(match):
+        num = int(match.group(1)) - 1  # Subtract 1
+        return f'x[{num}]'
+    parsed_equation = re.sub(pattern, replace, equation)
+
+    # TODO: Remove all instances of "Subscript()"
+
+
+    # TODO: Remove all instances of "Power()"
+
+    
+    return parsed_equation
 
 
 def main():
-    input_files = ['input.txt', 'input2.txt']
+    input_files = ['Equations/Tests/test_equations_1.txt']
 
     for file in input_files:
         parse_file(file)
