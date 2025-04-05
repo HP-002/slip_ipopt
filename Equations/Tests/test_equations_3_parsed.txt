@@ -1,0 +1,4 @@
+pow(1,2)
+pow(R,n)
+pow(pow(R,2),something)
+10*pow(pow(R,2),something)*10*pow(pow(R,2),something)
