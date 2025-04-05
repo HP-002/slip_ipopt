@@ -2,3 +2,11 @@ pow(1,2)
 pow(R,n)
 pow(pow(R,2),something)
 10*pow(pow(R,2),something)*10*pow(pow(R,2),something)
+
+10*sin(x)
+10*sin(xyz)
+10*a*10*sin(sin(x[0]*x[1])*15*x[4])
+
+10*cos(x)
+10*cos(xyz)
+10*a*10*cos(cos(x[0]*x[1])*15*x[4])

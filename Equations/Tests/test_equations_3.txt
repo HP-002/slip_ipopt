@@ -2,3 +2,11 @@ Power(1,2)
 Power(R,n)
 Power(Power(R,2),something)
 10*Power(Power(R,2),something)*10*Power(Power(R,2),something)
+
+10*Sin(x)
+10*Sin(xyz)
+10*a*10*Sin(Sin(x1*x2)*15*x5)
+
+10*Cos(x)
+10*Cos(xyz)
+10*a*10*Cos(Cos(x1*x2)*15*x5)

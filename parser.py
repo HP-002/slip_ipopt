@@ -19,8 +19,14 @@ def parse_equation(equation):
     # Remove all instances of "Subscript()"
     parsed_equation = re.sub(r'Subscript\(\s*([A-Za-z0-9_]+)\s*,\s*([A-Za-z0-9_]+)\s*\)', r'\1\2', parsed_equation)
 
-    # TODO: Remove all instances of "Power()"
+    # Replace all instances of "Power(x,y)" with "pow(x,y)"
     parsed_equation = re.sub(r'\bPower\b', 'pow', parsed_equation)
+
+    # Replace all instances of "Sin(x)" with "sin(x)"
+    parsed_equation = re.sub(r'\bSin\b', 'sin', parsed_equation)
+
+    # Replace all instances of "Cos(x)" with "cos(x)"
+    parsed_equation = re.sub(r'\bCos\b', 'cos', parsed_equation)
     
     return parsed_equation
 
