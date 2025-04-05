@@ -17,7 +17,7 @@ def parse_equation(equation):
     parsed_equation = re.sub(pattern, replace, equation)
 
     # TODO: Remove all instances of "Subscript()"
-
+    parsed_equation = re.sub(r'Subscript\(\s*([A-Za-z0-9_]+)\s*,\s*([A-Za-z0-9_]+)\s*\)', r'\1\2', parsed_equation)
 
     # TODO: Remove all instances of "Power()"
 
@@ -26,7 +26,7 @@ def parse_equation(equation):
 
 
 def main():
-    input_files = ['Equations/Tests/test_equations_1.txt']
+    input_files = ['Equations/Tests/test_equations_1.txt', 'Equations/Tests/test_equations_2.txt']
 
     for file in input_files:
         parse_file(file)

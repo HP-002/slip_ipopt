@@ -1,0 +1,4 @@
+Subscript(R,a)
+8*Subscript(R,a)
+8*Subscript(R,a)*Subscript(k,0)
+Subscript(k,0)*Subscript(k,0)*Subscript(R,a)
