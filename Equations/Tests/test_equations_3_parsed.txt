@@ -1,7 +1,7 @@
 pow(1,2)
-pow(R,n)
-pow(pow(R,2),something)
-10*pow(pow(R,2),something)*10*pow(pow(R,2),something)
+pow(R_,n)
+pow(pow(R_,2),something)
+10*pow(pow(R_,2),something)*10*pow(pow(R_,2),something)
 
 10*sin(x)
 10*sin(xyz)

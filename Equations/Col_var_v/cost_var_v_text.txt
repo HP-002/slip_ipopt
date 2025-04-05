@@ -1,3 +1,1 @@
-(x1*(Power(x10,2) + Power(x2,2) + 2*Power(x3,2) + 2*Power(x4,2) + 
-      2*Power(x5,2) + 2*Power(x6,2) + 2*Power(x7,2) + 2*Power(x8,2) + 
-      2*Power(x9,2)))/(16.*Subscript(R,a))
+(x1*(Power(x10,2) + Power(x2,2) + 2*Power(x3,2) + 2*Power(x4,2) + 2*Power(x5,2) + 2*Power(x6,2) + 2*Power(x7,2) + 2*Power(x8,2) + 2*Power(x9,2)))/(16.*Subscript(R,a))
