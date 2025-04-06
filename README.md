@@ -31,8 +31,6 @@ src/
 │       └── # Mathematica notebooks and scripts for variable voltage problem
 │
 ├── parser.py          # Python script to parse Mathematica equations into C-style equations
-├── ipInterface.h      # Demo interface header file (To be deleted later)
-├── slip_problem.c     # Demo C source file (To be deleted later)
 ├── Makefile           # Build configuration file
 └── README.md          # Project documentation
 
