@@ -49,8 +49,10 @@ def main():
     # input_files = ['Equations/Tests/test_equations_1.txt', 'Equations/Tests/test_equations_2.txt', 'Equations/Tests/test_equations_3.txt', 'Equations/Tests/test_equations_4.txt']
 
     # Equations files for Col_var_v
-    input_files = ['Equations/Col_var_v/cost_var_v_text.txt', 'Equations/Col_var_v/costgrad_var_v_text.txt', 'Equations/Col_var_v/equality_var_v_text.txt', 'Equations/Col_var_v/inequality_var_v_text.txt', 'Equations/Col_var_v/eq_jacob_var_v_text.txt'];
-    output_files = ['Equations/Col_var_v/parsed/cost_var_v_parsed.txt', 'Equations/Col_var_v/parsed/costgrad_var_v_parsed.txt', 'Equations/Col_var_v/parsed/equality_var_v_parsed.txt', 'Equations/Col_var_v/parsed/inequality_var_v_parsed.txt', 'Equations/Col_var_v/parsed/eq_jacob_var_v_parsed.txt'];
+    # input_files = ['Equations/Col_var_v/cost_var_v_text.txt', 'Equations/Col_var_v/costgrad_var_v_text.txt', 'Equations/Col_var_v/equality_var_v_text.txt', 'Equations/Col_var_v/inequality_var_v_text.txt', 'Equations/Col_var_v/eq_jacob_var_v_text.txt'];
+    # output_files = ['Equations/Col_var_v/parsed/cost_var_v_parsed.txt', 'Equations/Col_var_v/parsed/costgrad_var_v_parsed.txt', 'Equations/Col_var_v/parsed/equality_var_v_parsed.txt', 'Equations/Col_var_v/parsed/inequality_var_v_parsed.txt', 'Equations/Col_var_v/parsed/eq_jacob_var_v_parsed.txt'];
+    input_files = ['Equations/Col_var_v/obj_hessian_var_v_text.txt'];
+    output_files = ['Equations/Col_var_v/parsed/obj_hessian_var_v_parsed.txt'];
 
     for inFile, outFile in zip(input_files, output_files):
         parse_file(inFile, outFile)
